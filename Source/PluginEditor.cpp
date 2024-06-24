@@ -137,6 +137,18 @@ void NewProjectAudioProcessorEditor::resized()
     peakQualitySlider.setBounds(bounds);
 }
 
+void NewProjectAudioProcessorEditor::parameterValueChanged (int parameterIndex, float newValue) {
+    parametersChanged.set(true);
+}
+
+void NewProjectAudioProcessorEditor::timerCallback() {
+    if (parametersChanged.compareAndSetBool(false, true)) {
+        // Update monochain
+        
+        // Signal a repaint
+    }
+}
+
 std::vector<juce::Component*> NewProjectAudioProcessorEditor::getComps() {
     return {
         &peakFreqSlider,
