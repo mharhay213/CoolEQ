@@ -68,6 +68,7 @@ public:
     void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override {};
     void timerCallback() override;
     void paint(juce::Graphics& g) override;
+    void updateChain();
 
 private:
     NewProjectAudioProcessor& audioProcessor;
