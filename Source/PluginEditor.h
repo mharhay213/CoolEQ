@@ -68,12 +68,17 @@ public:
     void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override {};
     void timerCallback() override;
     void paint(juce::Graphics& g) override;
-    void updateChain();
+    void resized() override;
 
 private:
     NewProjectAudioProcessor& audioProcessor;
     juce::Atomic<bool> parametersChanged {false};
     MonoChain monoChain;
+    juce::Image background;
+    
+    void updateChain();
+    juce::Rectangle<int> getRenderArea();
+    juce::Rectangle<int> getAnalysisArea();
 };
 
 //==============================================================================
