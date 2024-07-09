@@ -105,6 +105,9 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     rightChain.prepare(spec);
     
     updateFilters();
+    
+    leftChannelFifo.prepare(samplesPerBlock);
+    rightChannelFifo.prepare(samplesPerBlock);
 }
 
 void NewProjectAudioProcessor::releaseResources()
@@ -167,6 +170,9 @@ void NewProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     
     leftChain.process(leftContext);
     rightChain.process(rightContext);
+    
+    leftChannelFifo.update(buffer);
+    rightChannelFifo.update(buffer);
 }
 
 //==============================================================================
