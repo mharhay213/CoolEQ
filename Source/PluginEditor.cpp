@@ -123,6 +123,32 @@ void RotarySliderWithLabels::paint(juce::Graphics& g) {
                                       startAng,
                                       endAng,
                                       *this);
+    
+    auto center = sliderBounds.toFloat().getCentre();
+    auto radius = sliderBounds.getWidth() * 0.5f;
+    
+    g.setColour(Colour(220u, 220u, 220u));
+    g.setFont(getTextHeight());
+    
+    auto numChoices = labels.size();
+    for (int i = 0; i < numChoices; i++) 
+    {
+        auto pos = labels[i].pos;
+        jassert(0.f <= pos);
+        jassert(pos <= 1.f);
+        
+        auto ang = jmap(pos, 0.f, 1.f, startAng, endAng);
+        auto c = center.getPointOnCircumference(radius + getTextHeight() * 0.5f + 1, ang);
+        
+        Rectangle<float> r;
+        auto str = labels[i].label;
+        r.setSize(g.getCurrentFont().getStringWidth(str), getTextHeight());
+        r.setCentre(c);
+        r.setY(r.getY() + getTextHeight());
+        
+        g.drawFittedText(str, r.toNearestInt(), juce::Justification::centred, 1);
+    }
+    
 }
 
 juce::Rectangle<int> RotarySliderWithLabels::getSliderBounds() const {
@@ -281,11 +307,27 @@ highCutSlopeSliderAttachment(audioProcessor.apvts, "HighCut Slope", highCutSlope
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
    
+    peakFreqSlider.labels.add({0.f, "20 Hz"});
+    peakFreqSlider.labels.add({1.f, "20 kHz"});
+    peakGainSlider.labels.add({0.f, "-24 dB"});
+    peakGainSlider.labels.add({1.f, "24 dB"});
+    peakQualitySlider.labels.add({0.f, "0.1"});
+    peakQualitySlider.labels.add({1.f, "10"});
+    lowCutFreqSlider.labels.add({0.f, "20 Hz"});
+    lowCutFreqSlider.labels.add({1.f, "20 kHz"});
+    highCutFreqSlider.labels.add({0.f, "20 Hz"});
+    highCutFreqSlider.labels.add({1.f, "20 kHz"});
+    lowCutSlopeSlider.labels.add({0.f, "12 dB/Oct"});
+    lowCutSlopeSlider.labels.add({1.f, "48 dB/Oct"});
+    highCutSlopeSlider.labels.add({0.f, "12 dB/Oct"});
+    highCutSlopeSlider.labels.add({1.f, "48 dB/Oct"});
+    
+    
     for (auto* comp : getComps()) {
         addAndMakeVisible(comp);
     }
     
-    setSize (600, 400);
+    setSize (550, 500);
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor(){
@@ -306,10 +348,13 @@ void NewProjectAudioProcessorEditor::resized()
     // subcomponents in your editor..
     
     auto bounds = getLocalBounds();
+    //float hRatio = JUCE_LIVE_CONSTANT(33) / 100.f
     
     auto responseArea = bounds.removeFromTop(bounds.getHeight() * 0.33);
     
     responseCurveComponent.setBounds(responseArea);
+    
+    bounds.removeFromTop(5);
     
     auto lowCutArea = bounds.removeFromLeft(bounds.getWidth() * 0.33);
     auto highCutArea = bounds.removeFromRight(bounds.getWidth() * 0.5);
