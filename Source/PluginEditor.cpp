@@ -504,7 +504,6 @@ void TitleComponent::paint(juce::Graphics& g)
     g.setColour(Colours::white);
     g.setFont(font);
     g.drawFittedText(text, versionArea, Justification::topRight, 1);
-    
 }
 
 juce::Rectangle<int> TitleComponent::getTitleArea()
@@ -575,6 +574,9 @@ void NewProjectAudioProcessorEditor::paint (juce::Graphics& g)
     
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (Colours::black);
+    
+    Image background = ImageCache::getFromMemory(BinaryData::background_png, BinaryData::background_pngSize);
+    g.drawImageAt (background, 0, 0);
 }
 
 void NewProjectAudioProcessorEditor::resized()

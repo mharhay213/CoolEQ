@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Ib391q" name="CoolEQ" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="EQ,Fx"
+              pluginAUIsSandboxSafe="1">
   <MAINGROUP id="yS6uti" name="CoolEQ">
+    <GROUP id="{97CF9241-1470-8F22-6C90-D50C5EC9A816}" name="Resources">
+      <FILE id="qe0PiJ" name="background.png" compile="0" resource="1" file="background.png"/>
+    </GROUP>
     <GROUP id="{DE854339-154E-5EF7-099B-2000A647DC05}" name="Source">
       <FILE id="ZB5tY2" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
