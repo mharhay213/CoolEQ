@@ -479,9 +479,32 @@ void TitleComponent::paint(juce::Graphics& g)
 {
     using namespace juce;
     
+    LookAndFeel_V4 laf;
+    String text;
+    
+    auto ogFont = laf.getAlertWindowFont();
+    String ogFontName = ogFont.getTypefacePtr()->getName();
+    
     // Set up title
-    g.setColour(Colour(69u, 167u, 197u));
-    g.drawRect(getTitleArea().toFloat(), 1.f);
+    Rectangle<int> titleArea = getTitleArea();
+    Font font = Font(FontOptions("Savoye LET", 75.f, Font::plain));
+    text = "CoolEQ";
+    
+    g.setColour(Colour(255u, 154u, 1u));
+    g.setFont(font);
+    g.drawFittedText(text, titleArea, Justification::centred, 1);
+    
+    // Version
+    Rectangle<int> versionArea = getLocalBounds();
+    versionArea.removeFromTop(2);
+    versionArea.removeFromRight(2);
+    font = Font(FontOptions(ogFontName, 12.f, Font::plain));
+    text = "1.0";
+    
+    g.setColour(Colours::white);
+    g.setFont(font);
+    g.drawFittedText(text, versionArea, Justification::topRight, 1);
+    
 }
 
 juce::Rectangle<int> TitleComponent::getTitleArea()
@@ -489,8 +512,7 @@ juce::Rectangle<int> TitleComponent::getTitleArea()
     auto bounds = getLocalBounds();
     int removeAmt = 5;
     
-    bounds.removeFromTop(removeAmt);
-    bounds.removeFromBottom(removeAmt);
+    bounds.removeFromTop(removeAmt * 6);
     bounds.removeFromLeft(removeAmt);
     bounds.removeFromRight(removeAmt);
     
