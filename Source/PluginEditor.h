@@ -264,6 +264,15 @@ private:
     PathProducer leftPathProducer, rightPathProducer;
 };
 
+struct TitleComponent : juce::Component
+{
+public:    
+    void paint(juce::Graphics& g) override;
+    
+private:
+    juce::Rectangle<int> getTitleArea();
+};
+
 //==============================================================================
 /**
 */
@@ -285,6 +294,8 @@ private:
     RotarySliderWithLabels peakFreqSlider, peakGainSlider, peakQualitySlider, lowCutFreqSlider, highCutFreqSlider, lowCutSlopeSlider, highCutSlopeSlider;
     
     ResponseCurveComponent responseCurveComponent;
+    
+    TitleComponent titleComponent;
     
     using APVTS = juce::AudioProcessorValueTreeState;
     using Attachment = APVTS::SliderAttachment;

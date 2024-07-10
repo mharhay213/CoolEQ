@@ -475,6 +475,28 @@ juce::Rectangle<int> ResponseCurveComponent::getAnalysisArea()
     return bounds;
 }
 
+void TitleComponent::paint(juce::Graphics& g)
+{
+    using namespace juce;
+    
+    // Set up title
+    g.setColour(Colour(69u, 167u, 197u));
+    g.drawRect(getTitleArea().toFloat(), 1.f);
+}
+
+juce::Rectangle<int> TitleComponent::getTitleArea()
+{
+    auto bounds = getLocalBounds();
+    int removeAmt = 5;
+    
+    bounds.removeFromTop(removeAmt);
+    bounds.removeFromBottom(removeAmt);
+    bounds.removeFromLeft(removeAmt);
+    bounds.removeFromRight(removeAmt);
+    
+    return bounds;
+}
+
 //==============================================================================
 NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p),
@@ -518,7 +540,7 @@ highCutSlopeSliderAttachment(audioProcessor.apvts, "HighCut Slope", highCutSlope
         addAndMakeVisible(comp);
     }
     
-    setSize (550, 500);
+    setSize (520, 580);
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor(){
@@ -541,8 +563,10 @@ void NewProjectAudioProcessorEditor::resized()
     auto bounds = getLocalBounds();
     //float hRatio = JUCE_LIVE_CONSTANT(33) / 100.f
     
-    auto responseArea = bounds.removeFromTop(bounds.getHeight() * 0.33);
+    auto titleArea = bounds.removeFromTop(70);
+    titleComponent.setBounds(titleArea);
     
+    auto responseArea = bounds.removeFromTop(bounds.getHeight() * 0.33);
     responseCurveComponent.setBounds(responseArea);
     
     bounds.removeFromTop(5);
@@ -570,6 +594,7 @@ std::vector<juce::Component*> NewProjectAudioProcessorEditor::getComps() {
         &highCutFreqSlider,
         &lowCutSlopeSlider,
         &highCutSlopeSlider,
-        &responseCurveComponent
+        &responseCurveComponent,
+        &titleComponent
     };
 }
